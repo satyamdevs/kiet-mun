@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIET_MUN</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+ .gradient-bg {
+            background: linear-gradient(180deg, #849afa 0%, #0c374d 100%);
+        }
+        .hover-scale {
+            transition: transform 0.2s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        .floating {
+            animation: float 2s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Welcome animation styles */
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #5c42c4, #10618a, #a4bec7, #08264e);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .typing-text {
+            font-size: 2rem;
+            color: white;
+            opacity: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid white;
+        }
+
+        .welcome-box {
+            position: relative;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="white" fill-opacity="0.2" d="M0,128L48,144C96,160,192,192,288,192C384,192,480,160,576,144C672,128,768,128,864,144C960,160,1056,192,1152,186.7C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            animation: waveAnimation 10s linear infinite;
+        }
+
+        @keyframes waveAnimation {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1440px; }
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+            opacity: 0;
+        }
+
+        .icon-item {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transform: scale(0);
+        }
+
+        .progress-ring {
+            position: absolute;
+            bottom: 10%;
+            transform: scale(0);
+        }
+
+        .mouse-trailer {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.5;
+            mix-blend-mode: difference;
+        }
+          /* n */
+        .gradient-bg {
+            background: linear-gradient(120deg, #191279 0%, #7d89d1 100%);
+        }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Welcome Animation Overlay -->
+    <div class="welcome-overlay">
+        <div class="wave"></div>
+        <div class="mouse-trailer"></div>
+        <div class="welcome-box">
+            <div class="logo-container">
+                <img src="logo.jpg" alt="Logo" class="w-full h-full rounded-full">
+            </div>
+            <br>
+            <br>
+            <div class="typing-text">Welcome to KIET MUN </div>
+          
+        </div>
+        <svg class="progress-ring" width="80" height="80">
+            <circle class="progress-ring__circle" stroke="white" stroke-width="4" fill="transparent" r="34" cx="40" cy="40"/>
+        </svg>
+    </div>
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-sm z-50 shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <img src="WhatsApp Image 2025-02-18 at 22.17.35_87c35141.jpg" alt="Logo" class="h-10 w-10 rounded-full">
+                    <span class="text-2xl font-bold text-primary">MODEL UNITED NATIONS</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-green-600 transition-colors">Home</a>
+                    <a href="#committee" class="text-gray-600 hover:text-green-600 transition-colors">Committee</a>
+                    <a href="#Secretriat" class="text-gray-600 hover:text-green-600 transition-colors">Secretariat</a>
+                    <a href="#FAQS" class="text-gray-600 hover:text-green-600 transition-colors">FAQs</a>
+                </div>
+                <button class="mr-5 ml-5 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                    Register
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+<section id="home" class="gradient-bg min-h-screen flex items-center pt-20">
+    <div class="container mx-auto px-6 py-20">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <div class="mb-8 flex justify-center md:justify-start" data-aos="fade-down">
+                    <img src="WhatsApp Image 2025-02-18 at 22.17.35_87c35141.jpg" 
+                         alt="KIET MUN Logo" 
+                         class="h-32 w-32 md:h-40 md:w-40 rounded-full border-4 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 text-center md:text-left">
+                    KIETMUN 2025
+                </h1>
+                
+                <h2 class="text-2xl text-white mb-8 font-semibold text-center md:text-left">
+                    RISE. SPEAK. RESOLVE
+                </h2>
+                <blockquote class="text-white/90 text-lg mb-8 italic border-l-4 border-white pl-4">
+                    "No Problem of human destiny is beyond human beings." 
+                    <br/><span class="text-sm">– John F. Kennedy</span>
+                </blockquote>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <button class="bg-white text-green-600 px-8 py-3 rounded-full hover:bg-green-50 transition-colors shadow-lg">
+                        Explore
+                    </button>
+                    <button class="border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white/10 transition-colors shadow-lg">
+                        Register
+                    </button>
+                </div>
+            </div>
+
+            <!-- Image Column -->
+            <div class="relative mt-12 md:mt-0" data-aos="fade-left">
+                <img src="kiet.jpeg" 
+                     alt="MUN Conference" 
+                     class="w-full h-auto rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent rounded-xl"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Countdown Section -->
+<section class="py-20 bg-gradient-to-b from-blue-900 to-blue-800">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-8" data-aos="fade-up">
+            Conference begins in 
+        </h2>
+        
+        <div class="grid grid-cols-4 gap-4 max-w-2xl mx-auto" data-aos="zoom-in">
+            <!-- Days -->
+            <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
+                <div class="text-4xl font-bold text-white" id="days">00</div>
+                <div class="text-sm text-white/80 mt-2">Days</div>
+            </div>
+            
+            <!-- Hours -->
+            <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
+                <div class="text-4xl font-bold text-white" id="hours">00</div>
+                <div class="text-sm text-white/80 mt-2">Hours</div>
+            </div>
+            
+            <!-- Minutes -->
+            <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
+                <div class="text-4xl font-bold text-white" id="minutes">00</div>
+                <div class="text-sm text-white/80 mt-2">Minutes</div>
+            </div>
+            
+            <!-- Seconds -->
+            <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
+                <div class="text-4xl font-bold text-white" id="seconds">00</div>
+                <div class="text-sm text-white/80 mt-2">Seconds</div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-white/90" data-aos="fade-up" data-aos-delay="300">
+            <p class="text-lg">Conference Starts: 5th MAY 2025</p>
+            <p class="text-sm mt-2">Venue: KIET Group of Institutions</p>
+        </div>
+    </div>
+</section>
+
+<script>
+// Set the date we're counting down to (Update this with your actual event date)
+const countDownDate = new Date("MAY 5, 2025 09:00:00").getTime();
+
+// Update the count down every 1 second
+const x = setInterval(function() {
+    // Get today's date and time
+    const now = new Date().getTime();
+    
+    // Find the distance between now and the count down date
+    const distance = countDownDate - now;
+    
+    // Time calculations for days, hours, minutes and seconds
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    // Display the result
+    document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+    document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+    document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+    document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+    
+    // If the count down is finished, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "EVENT IN PROGRESS!";
+    }
+}, 1000);
+</script>
+    <!-- About mun -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12" data-aos="fade-up">
+                Letter from Secretary-General
+            </h2>
+            <div class="max-w-4xl mx-auto" data-aos="fade-up">
+                <p class="text-gray-700 mb-6 leading-relaxed">
+                    Dear Delegates, Faculty Advisors, and Members of the Secretariat,<br>
+
+                    It is with immense pride and anticipation that I welcome you to the 13th edition of IITBHU Model United Nations. Representing one of India's premier institutions, IITBHU MUN has long been a stage where intellect meets diplomacy, and ideas transform into action.<br><br>
+                    
+                    Over the past twelve years, this conference has not only become one of the largest MUNs in India but also a hallmark of excellence, attracting delegates of unparalleled caliber and distinguished leaders from across the globe. From policymakers like Dr. Ajay Kumar, former Defence Secretary of India, to other eminent personalities, our legacy is built on the insights of those who shape the world and the ambitions of those who will inherit it.<br>
+                    
+                    This year, we continue that legacy with a renewed vision. IITBHU MUN is not merely a conference—it is a confluence of bright minds, a platform for bold ideas, and a crucible for innovative solutions to global challenges. It is where debate transcends rhetoric and becomes a force for change, where every resolution carries the weight of potential impact.<br><br>
+                    
+                    As Secretary-General, I am honored to lead this year's endeavor. With the combined strength of IITBHU's storied reputation and the relentless dedication of our extraordinary Secretariat, this edition promises to elevate our already illustrious standards.<br><br>
+                    
+                    To those who join us, know that this conference is more than an opportunity to engage in diplomacy—it is a chance to challenge convention, shape discourse, and leave your mark. Here, in the heart of Banaras, a city as timeless as the ideals of unity and progress we aspire to uphold, you will take part in something truly remarkable.<br><br>
+                    
+                    I look forward to seeing your passion, creativity, and resolve define the 13th edition of IITBHU MUN. The stage is yours
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges Section -->
+    <section id="challenges" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16" data-aos="fade-up">
+                Legacy
+            </h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-20 w-20 mx-auto mb-6 bg-red-100 rounded-full flex items-center justify-center">
+                        <svg class="h-10 w-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Conferences</h3>
+                    <p class="text-gray-600"></p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-20 w-20 mx-auto mb-6 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <svg class="h-10 w-10 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Nationalities</h3>
+                    <p class="text-gray-600"></p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-20 w-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Delegate</h3>
+                    <p class="text-gray-600"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Committees Section -->
+<section id="committees" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-16" data-aos="fade-up">
+            Our Committees
+        </h2>
+        <div class="grid md:grid-cols-3 gap-12">
+            <!-- UNSC -->
+            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="h-40 w-40 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-lg hover-scale transform transition-transform">
+                    <img src="unsc.jpeg" alt="UNSC" class="h-24 w-24">
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-blue-900">UN Security Council</h3>
+                <p class="text-gray-600 px-4">Addressing international peace and security issues</p>
+            </div>
+
+            <!-- WHO -->
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="h-40 w-40 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-lg hover-scale transform transition-transform">
+                    <img src="who.png" alt="WHO" class="h-24 w-24">
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-blue-900">World Health Assembly</h3>
+                <p class="text-gray-600 px-4">Global health governance and pandemic response</p>
+            </div>
+
+            <!-- UNHRC -->
+            <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="h-40 w-40 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-lg hover-scale transform transition-transform">
+                    <img src="hrc.png" alt="UNHRC" class="h-24 w-24">
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-blue-900">Human Rights Council</h3>
+                <p class="text-gray-600 px-4">Protecting and promoting human rights worldwide</p>
+            </div>
+
+            <!-- Lok Sabha -->
+            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="h-40 w-40 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-lg hover-scale transform transition-transform">
+                    <img src="lok sabha.jpeg" alt="Lok Sabha" class="h-24 w-24">
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-blue-900">Indian Parliament</h3>
+                <p class="text-gray-600 px-4">Deliberating national legislation and policy</p>
+            </div>
+
+            <!-- AIPPM -->
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="h-40 w-40 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-lg hover-scale transform transition-transform">
+                    <img src="aippm.jpeg" alt="AIPPM" class="h-24 w-24">
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-blue-900">All India Political Parties Meet</h3>
+                <p class="text-gray-600 px-4">Cross-party dialogue on national issues</p>
+            </div>
+
+            <!-- International Press -->
+            <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="h-40 w-40 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-lg hover-scale transform transition-transform">
+                    <img src="ip.png" alt="Press" class="h-24 w-24">
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-blue-900">International Press</h3>
+                <p class="text-gray-600 px-4">Documenting and reporting conference proceedings</p>
+            </div>
+        </div>
+    </div>
+</section>
+    <footer class="bg-[#0A0F44] text-white p-8">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
+            
+            <!-- Explore Section -->
+            <div>
+                <h2 class="font-bold text-lg">Explore</h2>
+                <ul class="mt-2 space-y-1">
+                    <li><a href="home" class="hover:underline">Home</a></li>
+                    <li><a href="committee" class="hover:underline">Committees</a></li>
+                    <li><a href="Secretariat" class="hover:underline">Secretariat</a></li>
+                    <li><a href="FAQS" class="hover:underline">FAQs</a></li>
+                </ul>
+            </div>
+    
+            <!-- Contact Section -->
+            <div>
+                <h2 class="font-bold text-lg">Contact us</h2>
+                <div class="mt-2 space-y-1">
+                    <p class="flex items-center justify-center md:justify-start">
+                        📍 KIET Group of institution,Ghaziabad.
+                    </p>
+                    <p class="flex items-center justify-center md:justify-start">
+                        📧 <a href="" class="hover:underline">information@kietmun.com</a>
+                    </p>
+                </div>
+            </div>
+    
+            <!-- Participation & Socials -->
+            <div class="flex flex-col items-center md:items-start">
+                <h2 class="font-bold text-lg">Participation</h2>
+                <button class="bg-red-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-red-600">Login</button>
+    
+                <h2 class="font-bold text-lg mt-4">Follow us</h2>
+                <div class="flex space-x-4 mt-2">
+                    <a href="https://www.instagram.com" class="text-xl hover:opacity-75">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.75 2h8.5A5.76 5.76 0 0 1 22 7.75v8.5A5.76 5.76 0 0 1 16.25 22h-8.5A5.76 5.76 0 0 1 2 16.25v-8.5A5.76 5.76 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zM17 6.5a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0zM12 7.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 1.5A3 3 0 1 0 15 12a3 3 0 0 0-3-3z"></path>
+                        </svg>
+                    </a> <!-- Instagram -->
+                
+                    <a href="https://www.linkedin.com" class="text-xl hover:opacity-75">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.5 3A2.5 2.5 0 0 1 23 5.5v13A2.5 2.5 0 0 1 20.5 21h-17A2.5 2.5 0 0 1 1 18.5v-13A2.5 2.5 0 0 1 3.5 3zm-7.25 6.5H15v1.28a3.5 3.5 0 0 1 3-1.78c3.15 0 3.5 2.07 3.5 4.78V18h-2.75v-4.06c0-.97-.02-2.22-1.36-2.22-1.36 0-1.57 1.07-1.57 2.15V18H12.5zm-5.5 0H10V18H7zm1.5-4.75A1.75 1.75 0 1 1 7 6.5 1.75 1.75 0 0 1 8.5 4.75z"></path>
+                        </svg>
+                    </a> <!-- LinkedIn -->
+                
+                    <a href="https://twitter.com" class="text-xl hover:opacity-75">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.33 7.32q.01.17.01.52A12.92 12.92 0 0 1 6.38 20 12.92 12.92 0 0 1 2 18.58a9.39 9.39 0 0 0 6.85-1.93A4.72 4.72 0 0 1 3.45 13v-.06a4.7 4.7 0 0 0 2.13-.07A4.7 4.7 0 0 1 2 8.34V8.3a4.66 4.66 0 0 0 2.14.6A4.7 4.7 0 0 1 4.28 3a13.34 13.34 0 0 0 9.69 4.91 4.7 4.7 0 0 1 8-4.3A9.24 9.24 0 0 0 21 3.56a4.7 4.7 0 0 1 2-2.59 9.53 9.53 0 0 0-2.85 1.1A4.68 4.68 0 0 1 19.33 7.32z"></path>
+                        </svg>
+                    </a> <!-- Twitter -->
+                
+                    <a href="https://medium.com" class="text-xl hover:opacity-75">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M4.33 6.33A2.67 2.67 0 1 1 7 9a2.67 2.67 0 0 1-2.67-2.67zm9.34 5.34a4 4 0 1 1-4-4 4 4 0 0 1 4 4zm6 0a1.33 1.33 0 1 1-1.33-1.33A1.33 1.33 0 0 1 19.67 11.67z"></path>
+                        </svg>
+                    </a> <!-- Medium -->
+                </div>
+                
+            </div>
+    
+        </div>
+    
+        <!-- Copyright -->
+        <div class="text-center text-sm mt-6">
+            &copy; 2025 All Rights Reserved
+        </div>
+    </footer>
+    
+      
+    
+    
+
+
+    <script>
+               // Initialize AOS
+AOS.init({
+    duration: 1000,
+    once: true
+});
+
+// Mouse trailer animation
+document.addEventListener('mousemove', (e) => {
+    gsap.to(".mouse-trailer", {
+        x: e.clientX - 10,
+        y: e.clientY - 10,
+        duration: 0.2
+    });
+});
+
+// Create animated circles
+function createCircles() {
+    for(let i = 0; i < 5; i++) {
+        const circle = document.createElement('div');
+        circle.className = 'circle';
+        circle.style.width = Math.random() * 100 + 50 + 'px';
+        circle.style.height = circle.style.width;
+        circle.style.left = Math.random() * 100 + '%';
+        circle.style.top = Math.random() * 100 + '%';
+        document.querySelector('.welcome-overlay').appendChild(circle);
+    }
+}
+
+// Progress ring animation setup
+function setupProgressRing() {
+    const circle = document.querySelector('.progress-ring__circle');
+    if (!circle) return;
+    
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+    return { circle, circumference };
+}
+
+function setProgress(percent, circle, circumference) {
+    const offset = circumference - percent / 100 * circumference;
+    circle.style.strokeDashoffset = offset;
+}
+
+// Particle creation and animation
+function createParticles() {
+    for(let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.width = Math.random() * 10 + 'px';
+        particle.style.height = particle.style.width;
+        document.querySelector('.welcome-overlay').appendChild(particle);
+        
+        gsap.set(particle, {
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight
+        });
+        
+        animateParticle(particle);
+    }
+}
+
+function animateParticle(particle) {
+    gsap.to(particle, {
+        opacity: Math.random(),
+        x: '+=' + (Math.random() * 200 - 100),
+        y: '+=' + (Math.random() * 200 - 100),
+        duration: Math.random() * 2 + 1,
+        ease: "none",
+        repeat: -1,
+        yoyo: true
+    });
+}
+
+// Main welcome animation
+function initWelcomeAnimation() {
+    const tl = gsap.timeline();
+    const ringSetup = setupProgressRing();
+    
+    createCircles();
+    createParticles();
+    
+    tl.to(".logo-container", {
+        opacity: 1,
+        duration: 1,
+        scale: 1.2,
+        ease: "back.out"
+    })
+    .to(".welcome-box", {
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        ease: "back.out(1.7)"
+    })
+    .to(".typing-text", {
+        opacity: 1,
+        duration: 0.5
+    })
+    .from(".typing-text", {
+        width: 0,
+        duration: 2,
+        ease: "power4.inOut"
+    })
+    .to(".icon-grid", {
+        opacity: 1,
+        duration: 0.5
+    })
+    .to(".icon-item", {
+        scale: 1,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "back.out(2)"
+    });
+
+    if (ringSetup) {
+        tl.to(".progress-ring", {
+            scale: 1,
+            duration: 0.5,
+            onComplete: () => {
+                gsap.to({}, {
+                    duration: 2,
+                    onUpdate: function() {
+                        setProgress(this.progress() * 100, ringSetup.circle, ringSetup.circumference);
+                    },
+                    onComplete: () => {
+                        gsap.to(".welcome-overlay", {
+                            y: "-100%",
+                            duration: 1,
+                            ease: "power4.inOut"
+                        });
+                    }
+                });
+            }
+        });
+    }
+}
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', initWelcomeAnimation);
+  
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+    </script>
+</body>
+</html>
